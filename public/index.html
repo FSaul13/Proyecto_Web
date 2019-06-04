@@ -1,0 +1,28 @@
+<DOCTYPE!>
+<html>
+<head>
+	<title>Angular 10</title>
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+	<!--<script type="text/javascript" src="jquery-3.3.1.js"></script>-->
+	<script type="text/javascript" src="script.js"></script>
+</head>
+</head>
+<body>
+	<div ng-app="apiApp" ng-controller="apiAppCtrl as vm">
+		<h1>Usando AJAX</h1>
+		<p>
+			Selecciona:
+			<select ng-model="vm.url" ng-change="vm.buscaEnRegion()">
+				<option value="a">UAA</option>
+				<option value="b">UAZ</option>
+				<option value="c">UNIDEP</option>
+			</select>
+		</p>
+		<ul>
+			<!--{{vm.paises}}-->
+			<li ng-repeat="pais in vm.paises">Universidad:<span>{{pais.Descripcion}}</span></li>
+		</ul>
+	</div>
+</body>
+</html>
