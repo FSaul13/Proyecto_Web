@@ -51,43 +51,7 @@ app.config(function ($routeProvider) {
 
 
 var vector = [{name:"Home",cont: -2},{name:"About",cont:0},{name:"Contact",cont:0}];
-
-app.factory('UserService', UserService);
-UserService.$inject = ['$http'];
-function UserService($http) {
-	var service = {};
-        
-        //funciones
-        service.GetById = GetById;
-        service.GetByName = GetByName;
-        service.Create = Create;
-        service.Update = Update;
-
-        return service;
-
-        function GetById(id)
-        {
-            return $http.get('' + id).then(ifSuccess, ifError('Error obteniendo usuario por id'));
-        }
-        function GetByName(name)
-        {
-            return $http.get('/apiN/usuarios' + name).then(ifSuccess, ifError('Error obteniendo usuario por nombre'));
-        }
-
-        function Create(user)
-        {
-            return $http({
-				url: "apiLogin.php",
-				method: "POST",
-				params: user
-			}).then(ifSuccess, ifError('No se ingreso el usuario a la DB'));
-        }
-        function Update(user)
-        {
-            return $http.post('/apiN/usuarios' + user.id, user).then(ifSuccess, ifError('Error actualizando usuario'));
-        }
-}
-
+/*
 app.factory('AutService', AutService);
 AutService.$inject = ['$cookies', '$rootScope', '$timeout', 'UserService']; //Permite usar funciones de estos objetos
 function AutService($cookies, $rootScope, $timeout, UserService) 
@@ -114,7 +78,8 @@ function AutService($cookies, $rootScope, $timeout, UserService)
     }
 
     
-}
+}*/
+
 app.controller('RegisterCtrl', RegisterCtrl)
 RegisterCtrl.$inject = ['$http', '$location'];
 function RegisterCtrl($http, $location)
@@ -132,49 +97,49 @@ function RegisterCtrl($http, $location)
 			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password}
 		}).then(function (response){
 			console.log(response.data);
-			sessionStorage.setItem("usuario", vm.username);
+			//sessionStorage.setItem("usuario", vm.username);
+			console.log("Ya puedes iniciar sesion");
+			$location.path('/login');
         });         
         console.log("terminado...");   
     };
 }
-
-LoginCtrl.$inject = ['$location', 'AutService'];
-function LoginCtrl($location, AutService)
+app.controller('LoginCtrl', LoginCtrl)
+LoginCtrl.$inject = ['$location', '$http'];
+function LoginCtrl($location, $http)
 {
     console.log("en login");
     var vm = this;
 	vm.login = login;
 	vm.setValues = setValues;
-
-    function initController(){
-        AutService.clearValues();
-    };
         
     function login()
     {
-        vm.dataLoading = true;
-        AutService.Login(vm.username, vm.password, function(response){
-            if(response.success){
+		vm.dataLoading = true;
+		
+		$http({
+			url: "apiLogin.php",
+			method: "POST",
+			data: {user: vm.username, password: vm.password}
+		})then(function (reponse){
+			if(response == true){
                 vm.setValues(vm.username, vm.password);
                 console.log("iniciado");
-                $location.path('/#/home');
+                $location.path('/inicio');
             } else{
-				console.log(response.message + response.success);
+				alert("Usuario no existente, por favor registrese prro");
                 vm.dataLoading = false;
-                $location.path('/#/register');
+                $location.path('/register');
             }
-        });
+		});
 	};
 		
 	function setValues(username, pass){
-		$rootScope.globals = {
-			usuarioActual: {
-				name : username, pass: pass
-			}
-		};
+		sessionStorage.setItem("usuario", vm.username);
+		sessionStorage.setItem("password", vm.password);
 		
 		var cookie = new Date();
-		cookie.setDate(cookie.getDate() + 7);
+		cookie.setDate(cookie.getDate() + 7 );
 		$cookies.putObject('globals', $rootScope.globals, {expires: cookie});
 	}
 	
