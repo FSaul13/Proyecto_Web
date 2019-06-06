@@ -75,7 +75,8 @@ function RegisterCtrl($http, $location)
 {
     console.log("en register");
 	var vm = this;
-    vm.reg = function reg()
+
+    vm.reg = function ()
     {
         console.log("registrando...");
 		vm.dataLoading = true;
@@ -95,8 +96,29 @@ function RegisterCtrl($http, $location)
 			}
 			
         });         
-        console.log("terminado...");   
-    };
+		console.log("terminado...");   
+		vm.enviarEmail("correodeprueba@caca.com");
+	};
+	
+	vm.enviarEmail = function(correo)
+	{
+		alert("Enviando correo..." + correo);
+		$http({
+			url: 'http://localhost:3010/send', 
+			method: "GET",
+			params: {email: correo}
+		}).then(function(response){
+			if (response.data != null)
+			{
+				alert("Enviado: " + response.data);
+			}
+			else
+			{
+				alert(response.data + " " + response.status);
+			}
+		});
+	};
+
 }
 
 app.controller('LoginCtrl', LoginCtrl)
