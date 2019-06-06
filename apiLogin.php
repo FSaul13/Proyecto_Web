@@ -3,7 +3,19 @@
 
     $json = file_get_contents("php://input");
 
-    echo $json;
+	$check = "SELECT * FROM usuarios WHERE username = '$json->user'";
+    $result = $conexion -> query($check);
+    $count =  mysqli_num_rows($result);
+
+    if ($count == 0)
+    {
+        echo "No existe el usuario, registrese por favor";
+	}else{
+		echo "Bienvenido " . $json->user;
+	}
+	
+
+
     
 
     /*$checkUN = "SELECT * FROM usuarios WHERE username = '$scope' ";

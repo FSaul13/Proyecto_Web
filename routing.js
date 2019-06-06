@@ -1,11 +1,11 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'ngCookies']);
 app.config(function ($routeProvider) {
 	// configure the routes
 	$routeProvider
 	.when('/', {
 	// route for the home page
 	templateUrl: 'inicio.html',
-	controller: 'homeController'
+	controller: 'inicioController'
 	})
 	.when('/about', {
 	// route for the about page
@@ -51,34 +51,6 @@ app.config(function ($routeProvider) {
 
 
 var vector = [{name:"Home",cont: -2},{name:"About",cont:0},{name:"Contact",cont:0}];
-/*
-app.factory('AutService', AutService);
-AutService.$inject = ['$cookies', '$rootScope', '$timeout', 'UserService']; //Permite usar funciones de estos objetos
-function AutService($cookies, $rootScope, $timeout, UserService) 
-{
-    var service = {};
-    service.Login = Login; //Como un prototipo de una función
-    return service;
-
-        //Checa si existe el usuario y si la contraseña es correcta
-    function Login(username, password, cb) 
-    {
-        $timeout(function(){
-            var response;
-            UserService.GetByName(username)
-                .then(function(user){
-                    if(user !== null && user.password === password){
-                        response = {success: true, message: "Buen inicio de sesion"};
-                    } else{
-                        response = {success: false, message: 'Usuario o contraseña incorrect@'};
-                    }
-                    cb(response);
-                });
-        }, 1000);
-    }
-
-    
-}*/
 
 app.controller('RegisterCtrl', RegisterCtrl)
 RegisterCtrl.$inject = ['$http', '$location'];
@@ -96,59 +68,63 @@ function RegisterCtrl($http, $location)
 			method: "POST",
 			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password}
 		}).then(function (response){
-			console.log(response.data);
-			//sessionStorage.setItem("usuario", vm.username);
-			console.log("Ya puedes iniciar sesion");
-			$location.path('/login');
+			if (response.data){
+				console.log(response.data + "MO");
+				//sessionStorage.setItem("usuario", vm.username);
+				console.log("Ya puedes iniciar sesion");
+				$location.path('/login');
+			} else{
+				console.log("No se pudo " + response.data);
+			}
+			
         });         
         console.log("terminado...");   
     };
 }
+
 app.controller('LoginCtrl', LoginCtrl)
-LoginCtrl.$inject = ['$location', '$http'];
-function LoginCtrl($location, $http)
+LoginCtrl.$inject = ['$location', '$http','$cookies'];
+function LoginCtrl($location, $http, $cookies)
 {
     console.log("en login");
     var vm = this;
-	vm.login = login;
-	vm.setValues = setValues;
-        
-    function login()
+	vm.login = function login()
     {
 		vm.dataLoading = true;
-		
+		console.log("Hola");
 		$http({
 			url: "apiLogin.php",
 			method: "POST",
 			data: {user: vm.username, password: vm.password}
-		})then(function (reponse){
-			if(response == true){
+		}).then(function (response){
+			if(response.data){
                 vm.setValues(vm.username, vm.password);
-                console.log("iniciado");
+                alert("Sesion iniciada :D");
                 $location.path('/inicio');
             } else{
-				alert("Usuario no existente, por favor registrese prro");
-                vm.dataLoading = false;
+				alert("Usuario no existente, por favor registrese");
                 $location.path('/register');
             }
 		});
+		vm.dataLoading = false;
 	};
 		
-	function setValues(username, pass){
+	vm.setValues = function setValues(){
 		sessionStorage.setItem("usuario", vm.username);
 		sessionStorage.setItem("password", vm.password);
 		
-		var cookie = new Date();
-		cookie.setDate(cookie.getDate() + 7 );
-		$cookies.putObject('globals', $rootScope.globals, {expires: cookie});
-	}
+		//*ar cookie = new Date();
+		//cookie.setDate(cookie.getDate() + 7 );
+		//$cookies.putObject('globals',{user: vm.username , password : vm.password}, {expires: cookie});
+	};
 	
-	function logOut(){
-		$cookies.remove('globals');
-	}
+	vm.logOut = function logOut(){
+		sessionStorage.clear();
+		//$cookies.remove('globals');
+	};
 }
 
-app.controller('homeController', function ($scope) {
+app.controller('inicioController', function ($scope) {
 
 });
 
@@ -176,10 +152,6 @@ app.controller('contact-usController', function ($scope) {
 });
 
 app.controller('vacantesController', function ($scope) {
-
-});
-
-app.controller('loginController', function ($scope) {
 
 });
 
