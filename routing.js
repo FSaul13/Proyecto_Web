@@ -55,11 +55,13 @@ function run($rootScope, $location) {
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
-		var loggedIn = sessionStorage.getItem("usuario");
-		console.log("Value: " + restrictedPage && (loggedIn != null));
+		console.log("ruta: " + $location.path());
+		var restrictedPage = $.inArray($location.path(), ['/login', '/register']) !== -1; //Si se encuentra en esa página
+		console.log(restrictedPage);
+		var loggedIn = sessionStorage.getItem("usuario") !== null;
+		console.log("log: " + loggedIn);
         if (restrictedPage && loggedIn) {
-            $location.path('/');
+        	$location.path('/');
         }
     });
 }
@@ -112,13 +114,22 @@ function LoginCtrl($location, $http, $cookies)
 			method: "POST",
 			data: {user: vm.username, password: vm.password}
 		}).then(function (response){
-			if(response.data){
+			if(response.data.msg == "IC"){
+				//console.log("DATA: " + response.data.msg + " " + response.data.password);
                 vm.setValues(vm.username, vm.password);
                 alert("Sesion iniciada :D");
                 $location.path('/');
             } else{
-				alert("Usuario no existente, por favor registrese");
-                $location.path('/register');
+				//console.log("DATA: " + response + " " + response.data);
+				if(response.data.msg == "NE")
+				{
+					alert(response.data.msg + " - Usuario no existente, por favor registrese");
+                	$location.path('/register');
+				}else{
+					alert(response.data.msg + " - Contraseña incorrecta");
+                	window.location.reload();
+				}
+				
             }
 		});
 		vm.dataLoading = false;
