@@ -49,6 +49,21 @@ app.config(function ($routeProvider) {
 	});
 });
 
+app.run(run);
+run.$inject = ['$rootScope', '$location'];
+function run($rootScope, $location) {
+
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        // redirect to login page if not logged in and trying to access a restricted page
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+		var loggedIn = sessionStorage.getItem("usuario");
+		console.log("Value: " + restrictedPage && (loggedIn != null));
+        if (restrictedPage && loggedIn) {
+            $location.path('/');
+        }
+    });
+}
+
 
 var vector = [{name:"Home",cont: -2},{name:"About",cont:0},{name:"Contact",cont:0}];
 
@@ -100,7 +115,7 @@ function LoginCtrl($location, $http, $cookies)
 			if(response.data){
                 vm.setValues(vm.username, vm.password);
                 alert("Sesion iniciada :D");
-                $location.path('/inicio');
+                $location.path('/');
             } else{
 				alert("Usuario no existente, por favor registrese");
                 $location.path('/register');
