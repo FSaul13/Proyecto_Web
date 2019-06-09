@@ -42,6 +42,11 @@ app.config(function ($routeProvider) {
 		templateUrl: 'login.html',
 		controller: 'LoginCtrl'	
 	})
+	.when('/usermenu', {
+		// route for the home page
+		templateUrl: 'usermenu.html',
+		controller: 'UsermenuCtrl'	
+	})
 	.otherwise({
 	// when all else fails
 	templateUrl: 'index.html',
@@ -183,6 +188,11 @@ function LoginCtrl($location, $http, $cookies)
 		//$cookies.remove('globals');
 	};
 }
+
+app.controller('UsermenuCtrl', function (){
+	vm = this;
+	
+});
 
 app.controller('InicioCtrl', function ($scope) {
 });
