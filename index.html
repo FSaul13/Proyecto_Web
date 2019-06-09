@@ -20,13 +20,13 @@
     <link rel="stylesheet" href="assets/css/owl-carousel.min.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css"/>
         
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-cookies.js"></script>
+    <script src="https://kit.fontawesome.com/f9fa2a6fda.js"></script>
     <script src="routing.js"></script>
 
 </head>
@@ -38,7 +38,7 @@
     <!-- Preloader End -->
 
     <!-- Header Area Starts -->
-	<header class="header-area main-header">
+	<header class="header-area main-header" ng-controller="NavCtrl as vm">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
@@ -60,9 +60,12 @@
                             <li><a href="#!contact-us">Contacto</a></li>
                             <li><a href="#!vacantes">Vacantes</a>
                             </li>
-                            <li class="menu-btn">
+                            <li class="menu-btn" ng-if="vm.noLogin">
                                 <a href="#!login" class="login">log in</a>
                                 <a href="#!register" class="template-btn">sign up</a>
+                            </li>
+                            <li class="menu-btn" ng-if="!(vm.noLogin)">
+                                    <a href="#!usermenu" class="template-btn">Hola {{vm.usuario}}</a>
                             </li>
                         </ul>
                     </div>

@@ -5,7 +5,7 @@ app.config(function ($routeProvider) {
 	.when('/', {
 	// route for the home page
 	templateUrl: 'inicio.html',
-	controller: 'inicioController'
+	controller: 'InicioCtrl'
 	})
 	.when('/about', {
 	// route for the about page
@@ -66,8 +66,19 @@ function run($rootScope, $location) {
     });
 }
 
-
-var vector = [{name:"Home",cont: -2},{name:"About",cont:0},{name:"Contact",cont:0}];
+app.controller('NavCtrl', NavCtrl)
+function NavCtrl()
+{
+	console.log("Siempre en nav");
+	var vm = this;
+	vm.usuario = sessionStorage.getItem("usuario");
+	if (vm.usuario != null)
+	{
+		vm.noLogin = false;
+	} else{
+		vm.noLogin = true;
+	}
+}
 
 app.controller('RegisterCtrl', RegisterCtrl)
 RegisterCtrl.$inject = ['$http', '$location'];
@@ -97,7 +108,7 @@ function RegisterCtrl($http, $location)
 			
         });         
 		console.log("terminado...");   
-		vm.enviarEmail("correodeprueba@caca.com");
+		vm.enviarEmail("correodeprueba@absc.com");
 	};
 	
 	vm.enviarEmail = function(correo)
@@ -140,7 +151,8 @@ function LoginCtrl($location, $http, $cookies)
 				//console.log("DATA: " + response.data.msg + " " + response.data.password);
                 vm.setValues(vm.username, vm.password);
                 alert("Sesion iniciada :D");
-                $location.path('/');
+				//$location.path('/');
+				window.location.reload();
             } else{
 				//console.log("DATA: " + response + " " + response.data);
 				if(response.data.msg == "NE")
@@ -172,23 +184,16 @@ function LoginCtrl($location, $http, $cookies)
 	};
 }
 
-app.controller('inicioController', function ($scope) {
-
+app.controller('InicioCtrl', function ($scope) {
 });
 
 app.controller('aboutController', function ($scope) 
 {
-	$scope.message = 'Find out more about me.';
-	$scope.muestra = ++vector[1].cont;
-	//$scope.muestra = vector;
-	//$scope.muestra[1].cont++;
+
 });
 
-app.controller('contactController', function ($scope) {
-	$scope.message = 'Contact us!';
-	//$scope.muestra = vector;
-	$scope.muestra = ++vector[2].cont;
-	//$scope.muestra[2].cont++;
+app.controller('contactController', function ($scope) 
+{
 });
 
 app.controller('job-categoryController', function ($scope) {
