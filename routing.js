@@ -100,29 +100,32 @@ function RegisterCtrl($http, $location)
 		$http({
 			url: "apiRegister.php",
 			method: "POST",
-			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password}
+			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password, email: vm.email}
 		}).then(function (response){
 			if (response.data){
 				console.log(response.data + "MO");
 				//sessionStorage.setItem("usuario", vm.username);
-				console.log("Ya puedes iniciar sesion");
+				alert("Checa tu correo para verificarlo: " + response.data);
+				console.log("terminado...");   
+				vm.enviarEmail();
 				$location.path('/login');
+			} else if (response.data == false){
+				alert("Ya existe el usuario " + response.data);
+				window.location.reload();
 			} else{
-				console.log("No se pudo " + response.data);
+				console.log("No se pudo: " + response.data);
 			}
-			
-        });         
-		console.log("terminado...");   
-		vm.enviarEmail("correodeprueba@absc.com");
+		});
+		console.log("ya...");
 	};
 	
-	vm.enviarEmail = function(correo)
+	vm.enviarEmail = function()
 	{
-		alert("Enviando correo..." + correo);
+		alert("Enviando correo..." + vm.email);
 		$http({
 			url: 'http://localhost:3010/send', 
 			method: "GET",
-			params: {email: correo}
+			params: {email: vm.email, user: vm.username, firstname: vm.firstName, lastname: vm.lastName}
 		}).then(function(response){
 			if (response.data != null)
 			{
