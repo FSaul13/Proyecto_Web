@@ -100,7 +100,7 @@ function RegisterCtrl($http, $location)
 		$http({
 			url: "apiRegister.php",
 			method: "POST",
-			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password, email: vm.email}
+			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password, email: vm.email, prof: vm.profesion}
 		}).then(function (response){
 			if (response.data){
 				console.log(response.data + "MO");
@@ -155,47 +155,54 @@ function LoginCtrl($location, $http, $cookies)
 			method: "POST",
 			data: {user: vm.username, password: vm.password}
 		}).then(function (response){
-			if(response.data.msg == "IC"){
-				//console.log("DATA: " + response.data.msg + " " + response.data.password);
-                vm.setValues(vm.username, vm.password);
-                alert("Sesion iniciada :D");
-				//$location.path('/');
-				window.location.reload();
-            } else{
-				//console.log("DATA: " + response + " " + response.data);
-				if(response.data.msg == "NE")
-				{
-					alert(response.data.msg + " - Usuario no existente, por favor registrese");
-                	$location.path('/register');
-				}else{
-					alert(response.data.msg + " - Contraseña incorrecta");
-                	window.location.reload();
-				}
-				
-            }
+			switch(response.data.msg){
+				case 'IC':
+					console.log("ICI: Inicio correcto de Sesion");
+					vm.setValues(response.data.user, response.data.id, 1);
+					alert("Sesion iniciada :D");
+					window.location.reload();
+					break;
+				case 'NE':
+					console.log("NE: Usuario no existe en la BD");
+					alert("Registrese por favor, su usuario no existe");
+					$location.path('/register');
+					break;
+				case 'CIN':
+					console.log("CIN: Contraseña incorrecta, intente de nuevo");
+					alert("Contraseña incorrecta, intente de nuevo");
+					window.location.reload();
+					break;
+				case 'NV':
+					console.log("NV: No verificado");
+					alert("Aun no ha verificado su correo");
+					window.location.reload();
+					break;
+			}
 		});
 		vm.dataLoading = false;
 	};
 		
-	vm.setValues = function setValues(){
-		sessionStorage.setItem("usuario", vm.username);
-		sessionStorage.setItem("password", vm.password);
-		
+	vm.setValues = function setValues(user, id, type){
+		sessionStorage.setItem("usuario", user);
+		sessionStorage.setItem("id", id);
+		sessionStorage.setItem("type", type)
 		//*ar cookie = new Date();
 		//cookie.setDate(cookie.getDate() + 7 );
 		//$cookies.putObject('globals',{user: vm.username , password : vm.password}, {expires: cookie});
 	};
-	
+}
+
+app.controller('UsermenuCtrl', UsermenuCtrl)
+UsermenuCtrl.$inject = ['$location'];
+function UsermenuCtrl($location)
+{
+	vm = this;
+	vm.tipo = (sessionStorage.getItem("type") == 1) ? 'Aspirante' : 'Empresa';
 	vm.logOut = function logOut(){
 		sessionStorage.clear();
 		//$cookies.remove('globals');
 	};
 }
-
-app.controller('UsermenuCtrl', function (){
-	vm = this;
-	
-});
 
 app.controller('InicioCtrl', function ($scope) {
 });

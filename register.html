@@ -13,6 +13,11 @@
                     <input type="text" name="lastName" id="Text1" class="form-control" ng-model="vm.lastName" required />
                     <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
                 </div>
+                <div class="form-group" ng-class="{ 'has-error': form.profesion.$dirty && form.profesion.$error.required }">
+                    <label for="profesion">Profesion</label>
+                    <input type="text" name="profesion" id="profesion" class="form-control" ng-model="vm.profesion" required />
+                    <span ng-show="form.profesion.$dirty && form.profesion.$error.required" class="help-block">Profesion is required</span>
+                </div>
                 <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" ng-model="vm.email" required />

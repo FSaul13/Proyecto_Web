@@ -5,7 +5,7 @@
     $lname = $_GET['ln'];
     $user = $_GET['u'];
 
-    $update = "UPDATE usuarios SET status = '1' WHERE username = '$user'";
+    $update = "UPDATE aspirantes SET status = '1' WHERE username = '$user'";
     $result = $conexion-> query($update);
     if ($result == true)
 	{
