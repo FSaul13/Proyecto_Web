@@ -193,15 +193,54 @@ function LoginCtrl($location, $http, $cookies)
 }
 
 app.controller('UsermenuCtrl', UsermenuCtrl)
-UsermenuCtrl.$inject = ['$location'];
-function UsermenuCtrl($location)
+UsermenuCtrl.$inject = ['$location', '$http', '$scope'];
+function UsermenuCtrl($location, $http, $scope)
 {
-	vm = this;
-	vm.tipo = (sessionStorage.getItem("type") == 1) ? 'Aspirante' : 'Empresa';
-	vm.logOut = function logOut(){
+	$scope.tipo = sessionStorage.getItem("type");
+	$scope.initValues = function (){
+		console.log("Si llegue");
+		$http({
+			url: "getInfo.php",
+			method: "POST",
+			data: {user: sessionStorage.getItem("usuario"), type: $scope.tipo}
+		}).then(function (response){
+			if ($scope.tipo == 1){
+				$scope.fname = response.data.fname;
+				$scope.lname = response.data.lname;
+				$scope.pro = response.data.pro;
+				$scope.email = response.data.email;
+				$scope.pass = response.data.pass;
+				console.log("Regrese: " + $scope.email);
+			}else
+			{
+				
+			}
+		});
+	};
+	$scope.initValues();
+	
+	$scope.changeInfo = function(){
+		console.log("Cambiando");
+		if ($scope.tipo == 1){
+			$http({
+				url: "changeInfo.php",
+				method: "POST",
+				data: {user: sessionStorage.getItem("usuario"), fname: $scope.fname, lname: $scope.lname, pro: $scope.pro, email: $scope.email, pass: $scope.pass,type: $scope.tipo}
+			}).then(function (response){
+				$scope.initValues();
+				console.log("Cambios realizados: " + response.data);
+			});
+		}else{
+			
+		}
+	};
+
+	$scope.logOut = function logOut(){
 		sessionStorage.clear();
 		//$cookies.remove('globals');
 	};
+
+	
 }
 
 app.controller('InicioCtrl', function ($scope) {
