@@ -2,6 +2,21 @@
     <div class="row justify-content-center">
         <div class="col-md-6" ng-controller="LoginCtrl as vm">
             <h2 class="text-center">Login</h2><br>
+
+            <div class="row text-center">
+                    <div class="col-md-6">
+                        <input id="as" type="radio" ng-model="vm.tipo" ng-value="1" name="type" aria-label="Radio button for following text input">
+                        <label for="as">Soy aspirante</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="em" type="radio" ng-model="vm.tipo" ng-value="2" name="type" aria-label="Radio button for following text input">
+                        <label for="em">Soy empresa</label>
+                    </div>
+            </div>
+    
+            <h2 ng-if="vm.tipo == 1"> Login para Aspirante</h2>
+            <h2 ng-if="vm.tipo == 2"> Login para Empresa</h2>
+
             <form name="form" ng-submit="vm.login()" role="form">
                 <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
                     <label for="username"><i class="fas fa-user"></i> Username</label>

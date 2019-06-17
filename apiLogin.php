@@ -3,7 +3,14 @@
 
     $json = json_decode(file_get_contents("php://input"));
 
-	$check = "SELECT * FROM aspirantes WHERE username = '$json->user'";
+	if($json->tipo == 1)
+	{
+		$check = "SELECT * FROM aspirante WHERE username = '$json->user'";
+	}
+	else{
+		$check = "SELECT * FROM empresa WHERE username = '$json->user'";
+	}
+
     $result = $conexion -> query($check);
     $count =  mysqli_num_rows($result);
 

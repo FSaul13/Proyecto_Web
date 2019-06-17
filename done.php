@@ -1,15 +1,22 @@
 <?php
     include "db.php";
 
-    $fname = $_GET['fn'];
-    $lname = $_GET['ln'];
+    $type = $_GET['type'];
     $user = $_GET['u'];
 
-    $update = "UPDATE aspirantes SET status = '1' WHERE username = '$user'";
+    if ($type == 1)
+    {
+        $update = "UPDATE aspirante SET status = '1' WHERE username = '$user'";
+    }
+    else
+    {
+        $update = "UPDATE empresa SET status = '1' WHERE username = '$user'";
+    }
+
     $result = $conexion-> query($update);
     if ($result == true)
 	{
-		echo "<h1> SI SE PUDO </h1>";
+		echo "<h1> Correo confirmado. Regrese a la pagina para iniciar sesión </h1>";
 	} else{
 		echo "<h1> NO SE PUDO </h1>";
 	}

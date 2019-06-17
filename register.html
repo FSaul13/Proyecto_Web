@@ -1,15 +1,30 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6" ng-controller="RegisterCtrl as vm">
-            <h2>Register</h2>
-            <form name="form" ng-submit="vm.reg()" role="form">
+
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <input id="as" type="radio" ng-model="vm.tipo" ng-value="1" name="type" aria-label="Radio button for following text input">
+                    <label for="as">Soy aspirante</label>
+                </div>
+                <div class="col-md-6">
+                    <input id="em" type="radio" ng-model="vm.tipo" ng-value="2" name="type" aria-label="Radio button for following text input">
+                    <label for="em">Soy empresa</label>
+                </div>
+            </div>
+
+            <h2 ng-if="vm.tipo == 1"> Registro para Aspirante</h2>
+            <h2 ng-if="vm.tipo == 2"> Registro para Empresa</h2>
+
+
+            <form ng-if="vm.tipo == 1" name="form" ng-submit="vm.reg()" role="form">
                 <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-                    <label for="username">First name</label>
+                    <label for="firstName">First name</label>
                     <input type="text" name="firstName" id="firstName" class="form-control" ng-model="vm.firstName" required />
                     <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
                 </div>
                 <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-                    <label for="username">Last name</label>
+                    <label for="lastName">Last name</label>
                     <input type="text" name="lastName" id="Text1" class="form-control" ng-model="vm.lastName" required />
                     <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
                 </div>
@@ -21,8 +36,19 @@
                 <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" ng-model="vm.email" required />
-                    <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+                    <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">edadefono is required</span>
                 </div>
+                <div class="form-group" ng-class="{ 'has-error': form.tel.$dirty && form.tel.$error.required }">
+                    <label for="tel">Telefono</label>
+                    <input type="tel" name="tel" id="tel" class="form-control" ng-model="vm.tel" required />
+                    <span ng-show="form.tel.$dirty && form.tel.$error.required" class="help-block">Telefono is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.edad.$dirty && form.edad.$error.required }">
+                    <label for="edad">Edad</label>
+                    <input type="number" name="edad" id="edad" class="form-control" ng-model="vm.edad" min="18" max="99" required/>
+                    <span ng-show="form.edad.$dirty && form.edad.$error.required" class="help-block">Edad is required</span>
+                </div>
+                <br><br><br>
                 <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
                     <label for="username">Username</label>
                     <input type="text" name="username" id="username" class="form-control" ng-model="vm.username" required />
@@ -36,6 +62,49 @@
                 <div class="form-actions">
                     <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Register</button>
                     <a href="##!/%23/login" class="btn btn-link">Cancel</a>
+                </div>
+            </form>
+
+            <form ng-if="vm.tipo == 2" name="form" ng-submit="vm.reg()" role="form">
+                <div class="form-group" ng-class="{ 'has-error': form.nom.$dirty && form.nom.$error.required }">
+                    <label for="nom">Nombre de la empresa</label>
+                    <input type="text" name="nom" id="nom" class="form-control" ng-model="vm.nom" required />
+                    <span ng-show="form.nom.$dirty && form.nom.$error.required" class="help-block">Nom. de la Empresa is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.rfc.$dirty && form.rfc.$error.required }">
+                    <label for="rfc">RFC</label>
+                    <input type="text" name="rfc" id="Text1" class="form-control" ng-model="vm.rfc" required />
+                    <span ng-show="form.rfc.$dirty && form.rfc.$error.required" class="help-block">RFC is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.emailI.$dirty && form.emailI.$error.required }">
+                    <label for="emailI">Email Institucional</label>
+                    <input type="email" name="emailI" id="emailI" class="form-control" ng-model="vm.emailI" required />
+                    <span ng-show="form.emailI.$dirty && form.emailI.$error.required" class="help-block">Email Inst. is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.telE.$dirty && form.telE.$error.required }">
+                    <label for="telE">Telefono</label>
+                    <input type="tel" name="telE" id="telE" class="form-control" ng-model="vm.telE" required />
+                    <span ng-show="form.telE.$dirty && form.telE.$error.required" class="help-block">Telefono de la Emp. is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.giro.$dirty && form.giro.$error.required }">
+                    <label for="giro">Giro de la Empresa</label>
+                    <input type="text" name="giro" id="giro" class="form-control" ng-model="vm.giro" required/>
+                    <span ng-show="form.giro.$dirty && form.giro.$error.required" class="help-block">Giro is required</span>
+                </div>
+                <br><br><br>
+                <div class="form-group" ng-class="{ 'has-error': form.usernameE.$dirty && form.usernameE.$error.required }">
+                    <label for="usernameE">Username</label>
+                    <input type="text" name="usernameE" id="usernameE" class="form-control" ng-model="vm.usernameE" required />
+                    <span ng-show="form.usernameE.$dirty && form.usernameE.$error.required" class="help-block">Username is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.passwordE.$dirty && form.passwordE.$error.required }">
+                    <label for="passwordE">Password</label>
+                    <input type="password" name="passwordE" id="passwordE" class="form-control" ng-model="vm.passwordE" required />
+                    <span ng-show="form.passwordE.$dirty && form.passwordE.$error.required" class="help-block">Password is required</span>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Register</button>
+                    <a href="#!login" class="btn btn-link">Login</a>
                 </div>
             </form><br><br>
         </div>

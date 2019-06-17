@@ -92,52 +92,96 @@ function RegisterCtrl($http, $location)
     console.log("en register");
 	var vm = this;
 
+	vm.tipo = 1;
+
     vm.reg = function ()
     {
         console.log("registrando...");
 		vm.dataLoading = true;
-
-		$http({
-			url: "apiRegister.php",
-			method: "POST",
-			data: {firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password : vm.password, email: vm.email, prof: vm.profesion}
-		}).then(function (response){
-			if (response.data){
-				console.log(response.data + "MO");
-				//sessionStorage.setItem("usuario", vm.username);
-				alert("Checa tu correo para verificarlo: " + response.data);
-				console.log("terminado...");   
-				vm.enviarEmail();
-				$location.path('/login');
-			} else if (response.data == false){
-				alert("Ya existe el usuario " + response.data);
-				window.location.reload();
-			} else{
-				console.log("No se pudo: " + response.data);
-			}
-		});
+		if(vm.tipo == 1)
+		{
+			$http({
+				url: "apiRegister.php",
+				method: "POST",
+				data: {tipo: vm.tipo, firstname: vm.firstName, lastname: vm.lastName, user: vm.username, password: vm.password, email: vm.email, prof: vm.profesion, tel: vm.tel, edad: vm.edad}
+			}).then(function (response){
+				if (response.data){
+					console.log(response.data + "MO");
+					//sessionStorage.setItem("usuario", vm.username);
+					alert("Checa tu correo para verificarlo: " + response.data);
+					console.log("terminado...");   
+					vm.enviarEmail();
+					$location.path('/login');
+				} else if (response.data == false){
+					alert("Ya existe el usuario " + response.data);
+					window.location.reload();
+				} else{
+					console.log("No se pudo: " + response.data);
+				}
+			});
+		} else{
+			$http({
+				url: "apiRegister.php",
+				method: "POST",
+				data: {tipo: vm.tipo, nom: vm.nom, rfc: vm.rfc, email: vm.emailI, tel: vm.telE, giro: vm.giro, user: vm.usernameE, password: vm.passwordE}
+			}).then(function (response){ //Checar si se puede usar una función de angular en vez de todo el desmadre :v 
+				if (response.data){
+					console.log(response.data + "MO");
+					//sessionStorage.setItem("usuario", vm.username);
+					alert("Checa tu correo para verificarlo: " + response.data);
+					console.log("terminado...");   
+					vm.enviarEmail();
+					$location.path('/login');
+				} else if (response.data == false){
+					alert("Ya existe el usuario " + response.data);
+					window.location.reload();
+				} else{
+					console.log("No se pudo: " + response.data);
+				}
+			});
+		}
 		console.log("ya...");
 	};
 	
 	vm.enviarEmail = function()
 	{
-		alert("Enviando correo..." + vm.email);
-		$http({
-			url: 'http://localhost:3010/send', 
-			method: "GET",
-			params: {email: vm.email, user: vm.username, firstname: vm.firstName, lastname: vm.lastName}
-		}).then(function(response){
-			if (response.data != null)
-			{
-				alert("Enviado: " + response.data);
-			}
-			else
-			{
-				alert(response.data + " " + response.status);
-			}
-		});
+		if(vm.tipo == 1)
+		{
+			alert("Enviando correo..." + vm.email);
+		
+			$http({
+				url: 'http://localhost:3010/send', 
+				method: "GET",
+				params: {tipo: vm.tipo, email: vm.email, user: vm.username}
+			}).then(function(response){
+				if (response.data != null)
+				{
+					alert("Enviado: " + response.data);
+				}
+				else
+				{
+					alert(response.data + " " + response.status);
+				}
+			});
+		}else{
+			alert("Enviando correo..." + vm.emailI);
+		
+			$http({
+				url: 'http://localhost:3010/send', 
+				method: "GET",
+				params: {tipo: vm.tipo, email: vm.emailI, user: vm.usernameE}
+			}).then(function(response){
+				if (response.data != null)
+				{
+					alert("Enviado: " + response.data);
+				}
+				else
+				{
+					alert(response.data + " " + response.status);
+				}
+			});
+		}
 	};
-
 }
 
 app.controller('LoginCtrl', LoginCtrl)
@@ -145,7 +189,10 @@ LoginCtrl.$inject = ['$location', '$http','$cookies'];
 function LoginCtrl($location, $http, $cookies)
 {
     console.log("en login");
-    var vm = this;
+	var vm = this;
+	
+	vm.tipo = 1;
+
 	vm.login = function login()
     {
 		vm.dataLoading = true;
@@ -153,12 +200,12 @@ function LoginCtrl($location, $http, $cookies)
 		$http({
 			url: "apiLogin.php",
 			method: "POST",
-			data: {user: vm.username, password: vm.password}
+			data: {tipo: vm.tipo, user: vm.username, password: vm.password}
 		}).then(function (response){
 			switch(response.data.msg){
 				case 'IC':
 					console.log("ICI: Inicio correcto de Sesion");
-					vm.setValues(response.data.user, response.data.id, 1);
+					vm.setValues(response.data.user, response.data.id, vm.tipo);
 					alert("Sesion iniciada :D");
 					window.location.reload();
 					break;

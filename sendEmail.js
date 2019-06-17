@@ -20,9 +20,8 @@ app.use(function(req, res, next) {
 });
 
 app.get('/send', (req,res) => {
+    var tipo = req.query.tipo;
     var correo = req.query.email;
-    var nom1 = req.query.firstname;
-    var nom2 = req.query.lastname;
     var u = req.query.user;
     
     let mailOptions = {
@@ -30,7 +29,7 @@ app.get('/send', (req,res) => {
         to: 'luisust10@gmail.com', // list of receivers
         subject: 'Confirma tu correo', // Subject line
         text: 'Hello world?', // plain text body
-        html: 'Hola,<br> por favor da click en el siguiente link' + correo +' para verificar tu email.<br><a href="http://'+ ip.address() +'/comport/done.php?fn=' + nom1 + '&ln='+nom2 +'&u=' + u + '">Verificar</a>'
+        html: 'Hola,<br> por favor da click en el siguiente link' + correo +' para verificar tu email.<br><a href="http://'+ ip.address() +'/comport/done.php?type=' + tipo + '&u=' + u + '">Verificar</a>'
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
