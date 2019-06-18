@@ -57,7 +57,7 @@ app.config(function ($routeProvider) {
 app.run(run);
 run.$inject = ['$rootScope', '$location'];
 function run($rootScope, $location) {
-
+	$rootScope.noLogin = true;
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
 		console.log("ruta: " + $location.path());
@@ -72,16 +72,17 @@ function run($rootScope, $location) {
 }
 
 app.controller('NavCtrl', NavCtrl)
-function NavCtrl()
+NavCtrl.$inject = ['$rootScope']
+function NavCtrl($rootScope)
 {
 	console.log("Siempre en nav");
 	var vm = this;
 	vm.usuario = sessionStorage.getItem("usuario");
 	if (vm.usuario != null)
 	{
-		vm.noLogin = false;
+		$rootScope.noLogin = false;
 	} else{
-		vm.noLogin = true;
+		$rootScope.noLogin = true;
 	}
 }
 
@@ -240,8 +241,8 @@ function LoginCtrl($location, $http, $cookies)
 }
 
 app.controller('UsermenuCtrl', UsermenuCtrl)
-UsermenuCtrl.$inject = ['$location', '$http', '$scope'];
-function UsermenuCtrl($location, $http, $scope)
+UsermenuCtrl.$inject = ['$location', '$http', '$scope', '$rootScope'];
+function UsermenuCtrl($location, $http, $scope, $rootScope)
 {
 	$scope.tipo = sessionStorage.getItem("type");
 	$scope.initValues = function (){
@@ -284,6 +285,8 @@ function UsermenuCtrl($location, $http, $scope)
 
 	$scope.logOut = function logOut(){
 		sessionStorage.clear();
+		$rootScope.noLogin = true;
+		$location.path("/");
 		//$cookies.remove('globals');
 	};
 
