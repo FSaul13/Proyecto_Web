@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div ng-controller="vacantesCtrl as vm">
     <section class="job-single-content section-padding">
         <div class="search-area">
@@ -69,107 +68,7 @@
                     </div>
                 </div>
             </div>
-            </div>
         </section>
-=======
+</div>
     
     
-    <!-- Job Single Content Starts -->
-    <div ng-controller="apiPHPCtrl2 as vm">
-    <section class="job-single-content section-padding">
-  <!--      <div class="search-area"></div>
-            <div class="search-bg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form action="#" class="d-md-flex justify-content-between">
-                                <select ng-model="vm.cat" ng-change="vm.buscaVacante()">
-                                    <option value="*" selected>Todos</option>
-                                    <option value="redes">Redes de Comunicacion</option>
-                                    <option value="electronica">Electronica</option>
-                                    <option value="soportesoftware">Soporte en Software</option>
-                                    <option value="soportehardware">Soporte en Hardware</option>
-                                    <option value="desarrolloweb">Desarrollo Web</option>
-                                </select>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    -->
-
-        <div class="search-area">
-                <div class="search-bg">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <form action="#" class="d-md-flex justify-content-between">
-                                    <select ng-model="vm.cat" class="nice-select" ng-change="vm.buscaVacante()">
-                                        <option value="*">Todos</option>
-                                        <option value="redes">Redes de Comunicacion</option>
-                                        <option value="electronica">Electronica</option>
-                                        <option value="soportesoftware">Soporte en Software</option>
-                                        <option value="soportehardware">Soporte en Hardware</option>
-                                        <option value="desarrolloweb">Desarrollo Web</option>
-                                    </select>
-                                    <input hidden type="text" placeholder="Search Keyword" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'" required>
-                                    <button type="submit" class="template-btn">find job</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 text-center mt-5">
-                            <span>49 Results found for “Telecommunication”</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-        <!--Probando el select-->
-            <div class="container">
-                <!--<div >-->
-                        
-                    <div class="row">
-                    <div class="col-lg-8">
-                        <div class="main-content">
-                            <div class="single-content1">
-                                <!--<div ng-model="vm.url" data-ng-init="vm.buscaVacante()" ng-change="vm.buscaVacante()">-->
-                                <div class="single-job mb-4 d-lg-flex justify-content-between" ng-repeat="vacante in vm.vacantes track by $index">
-                                    <div class="job-text">
-                                        <h4>{{vacante.puesto}}</h4>
-                                        <ul class="mt-4">
-                                            <li class="mb-3"><h5><i class="fa fa-map-marker"></i> {{vacante.lugar}}</h5></li>
-                                            <li class="mb-3"><h5><i class="fa fa-pie-chart"></i> {{vacante.descripcion}}</h5></li>
-                                            <li><h5><i class="fa fa-clock-o"></i> {{vacante.tiempo}}</h5></li>
-                                            <li class="mb-3"><h5><i class="fa fa-dollar"></i> {{vacante.salario}}</h5></li>
-                                        </ul>
-                                    </div>
-                                    <div class="job-img align-self-center">
-                                        <img src="assets/images/job1.png" alt="job">
-                                    </div>
-                                    <div class="job-btn align-self-center">
-                                        <a href="#" class="third-btn job-btn4">Oferta</a>
-                                        <a href="#" class="third-btn" ng-click="vm.Aplicar">Aplicar</a>
-                                    </div>
-                                </div>
-                            <!--</div>-->
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </section>
->>>>>>> 0d91cb16c11db89583697d0bfaf7ee5f34ea3ab4
-        <!-- Job Single Content End -->
