@@ -11,7 +11,7 @@ let transporter = nodeMailer.createTransport({
     }
 });
 
-app.listen(3010);
+app.listen(3010);   
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -29,7 +29,7 @@ app.get('/send', (req,res) => {
         to: 'luisust10@gmail.com', // list of receivers
         subject: 'Confirma tu correo', // Subject line
         text: 'Hello world?', // plain text body
-        html: 'Hola,<br> por favor da click en el siguiente link' + correo +' para verificar tu email.<br><a href="http://'+ ip.address() +'/comport/done.php?type=' + tipo + '&u=' + u + '">Verificar</a>'
+        html: 'Hola,<br> por favor da click en el siguiente link' + correo +' para verificar tu email.<br><a href="http://' +'/comport/done.php?type=' + tipo + '&u=' + u + '">Verificar</a>'
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

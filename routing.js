@@ -29,9 +29,14 @@ app.config(function ($routeProvider) {
 	})
 	.when('/vacantes', {
 	// route for the home page
-	templateUrl: 'job-search.html',
-	controller: 'vacantesController'
+	templateUrl: 'vacantes.html',
+	controller: 'vacantesCtrl'
 	})
+	.when('/subirVacante', {
+		// route for the home page
+		templateUrl: 'subirVacantes.html',
+		controller: 'subirCtrl'
+		})
 	.when('/register', {
 		// route for the home page
 		templateUrl: 'register.html',
@@ -289,8 +294,6 @@ function UsermenuCtrl($location, $http, $scope, $rootScope)
 		$location.path("/");
 		//$cookies.remove('globals');
 	};
-
-	
 }
 
 app.controller('InicioCtrl', function ($scope) {
@@ -313,8 +316,75 @@ app.controller('contact-usController', function ($scope) {
 
 });
 
-app.controller('vacantesController', function ($scope) {
+app.controller('subirCtrl', function ($http) {
+	alert("LLEGUE");
+	var vm = this;
 
+	vm.subirVacante = function ()
+    {
+        alert("Si entre a la funcion subir vacante");
+		$http({
+			url: "subirVacantes.php",
+			method: "POST",
+            data: {descripcion: vm.descripcion, lugar: vm.lugar, categoria: vm.cat, puesto : vm.puesto,
+                 tiempo: vm.tiempo, salario: vm.salario, entrevista: vm.entrevista}
+		}).then(function (response){
+			if (response.data){
+                //alert("Si se pudo!");
+                alert(response.data);
+               	$window.location.reload;
+            }
+            else{
+                alert("Nel prro");
+            }
+    });    
+  }
+});
+
+app.controller('vacantesCtrl', function ($http) {
+	var vm = this;
+	vm.buscaVacante = function()
+	{
+        alert("Aqui llegue");
+        alert(vm.cat);
+        $http({
+            method: 'GET',
+            url: 'get.php',
+            params:{categoria: vm.cat}
+        }).then(function (response) {
+            alert("Simon");
+            vm.vacantes = response.data;
+        }, function (response) {
+            alert("Nel");
+            // on error
+            console.log(response.data,response.status);
+        });
+    }
+    
+    /*Aplicar Para un Trabajo*/
+  	vm.aplicarSolicitud= function(id_oferta){//es cuendo se aprieta el boton de la pagina mostrar info
+		if (sessionStorage.getItem("usuario") && sessionStorage.getItem("password")){//verifica si esta en sesion
+			alert("Incribirse");
+			alert(id_oferta);//verifica que haya llegado el id de la oferta que se envio de parametro
+			var usuario =(sessionStorage.getItem("id"));
+			alert(usuario);
+			$http({
+				method: 'POST',
+				url: 'pedirtrabajo.php',//manda a llamar a esa pagina que hara modificar la bse de datos colocando el id de la oferta, el id del solicitante y colocando en uno el boleano que quiere solicitar a espera de respuesta de empresa
+				data:{oferta:id_oferta,usuario:usuario}//se envian los datos
+			}).then(function (response) {
+				console.log(response.data);
+				// on success
+			alert("Felicidades");
+			}, function (response) {
+				alert("Nel");
+				// on erro
+			});
+		}
+		else{
+			alert("inicia sesion");//en caso que no esten las variables de sesion
+		}
+	}
 });
 
 app.controller('notFoundController', function ($scope) {
