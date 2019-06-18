@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div ng-controller="subirCtrl as vm">
 <!-- Header Area Starts -->
         <div class="page-title text-center">
@@ -111,4 +112,119 @@
         </div>
     </section>
     <!-- Contact Form End -->
+=======
+<div ng-controller="apiPHPCtrl as vm">
+<!-- Header Area Starts -->
+        <div class="page-title text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <h2>Crea una Nueva Vacante.</h2>
+                        <p>Acercate a la gente de una manera rapida y dinamica.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Header Area End -->
+
+    <!-- Contact Form Starts -->
+    <section class="contact-form section-padding3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 mb-5 mb-lg-0">
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Descripcion de el Trabajo</h4>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Lugar del trabajo</h4>
+                            <p>Ciudad Principal</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Categoria del Trabajo</h4>
+                            <p>Seleccione alguna de las opciones</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Area del Trabajo</h4>
+                            <p>Ambito donde se desarrolla</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Tiempo</h4>
+                            <p>Duracion de la contratacion</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Salario</h4>
+                            <p>Monto por mes</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="info-text">
+                            <h4>Entrevista</h4>
+                            <p>Archivo con la entrevista.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-9">
+                    <form ng-submit="vm.subirVacante()" enctype="multipart/form-data">
+                        <div class="left">
+                            <input type="text" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Descripcion'" required ng-model="vm.descripcion">
+                            <input type="text" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Lugar'" required ng-model="vm.lugar">
+                            <br>
+                            <br>
+                            <br>                            
+                            <div class="search-area">
+                            <div class="search-bg">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <!--<form action="#" class="d-md-flex justify-content-between">-->
+                                                    <select ng-model="vm.cat" class="nice-select">
+                                                        <option value="redes">Redes de Comunicacion</option>
+                                                        <option value="electronica">Electronica</option>
+                                                        <option value="soportesoftware">Soporte en Software</option>
+                                                        <option value="soportehardware">Soporte en Hardware</option>
+                                                        <option value="desarrolloweb">Desarrollo Web</option>
+                                                    </select>
+                                                    /<input hidden type="text" placeholder="Search Keyword" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                                   <!-- <button hidden type="submit" class="template-btn">find job</button>
+                                                </form>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <input type="text" placeholder="Enter subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Area de Trabajo'" required ng-model="vm.puesto">
+                            <input type="text" placeholder="Enter subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Duracion'" required ng-model="vm.tiempo">
+                            <input type="text" placeholder="Enter subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Salario'" required ng-model="vm.salario">
+                            <div class="right">
+                                <textarea name="message" cols="20" rows="7"  placeholder="Enter Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" required ng-model="vm.entrevista"></textarea>
+                            </div>
+                            <iframe ng-onload="iniciar()" frameborder="0"></iframe>
+                            <!--Prueba para subir archivo de entrevista-->
+                            <!--<input type="file" file-model="files" multiple name="archivo" required="required" ng-model="vm.files" />-->
+                            <!--<p id="info"></p>
+                            <section id="cajasoltar">
+                                Arrastre y suelte archivos en este espacio
+                            </section>-->
+                        </div>
+                        <button type="submit" class="template-btn">subscribe now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Form End -->
+>>>>>>> 0d91cb16c11db89583697d0bfaf7ee5f34ea3ab4
 </div>
